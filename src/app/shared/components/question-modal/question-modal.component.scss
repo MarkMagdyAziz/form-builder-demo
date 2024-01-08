@@ -1,0 +1,54 @@
+i {
+  font-size: 20px;
+}
+
+input[type="checkbox"],.form-check label {
+  cursor: pointer;
+}
+
+.fi-icon {
+  cursor: pointer;
+  background-color: #9C27B0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+
+  i {
+    color: white;
+  }
+}
+
+.single__choice .choice {
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.hint {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.question-choices button {
+  border: none;
+}
+
+.error-hint {
+  color: red !important;
+  margin-left: 10px;
+}
+
+.inputs-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.single__choice .choice .text {
+  width: 88%;
+}

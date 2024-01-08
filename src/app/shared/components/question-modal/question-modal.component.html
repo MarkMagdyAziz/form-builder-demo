@@ -3,7 +3,92 @@
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
 <div class="modal-body">
-  <p>Hello, {{ name }}!</p>
+  <form [formGroup]="singleInputStructureForm">
+    <div class="form-group my-3">
+      <input type="text" class="form-control" id="input-label" placeholder="Enter Question Input Label"
+        formControlName="label">
+      @if (singleInputStructureForm.get('label')?.invalid && (singleInputStructureForm.get('label')?.dirty ||
+      singleInputStructureForm.get('label')?.touched)){
+      <small class="error-hint">Question
+        label is a required field</small>
+      }
+    </div>
+    <div class="form-group my-3">
+      <input type="text" class="form-control" id="input-value" placeholder="Enter Question Input Value"
+        formControlName="value">
+    </div>
+    <div class="form-group my-3 form-check">
+      <input type="checkbox" class="form-check-input" id="is-required-question" formControlName="isRequired">
+      <label for="is-required-question">The question input is required</label>
+    </div>
+
+
+    @if((type === 'checkbox') || (type === 'radio')){
+    <div class="question-choices">
+      <div style="width: fit-content; margin-bottom: 20px;">
+        <button placement="top" ngbTooltip="Add more choices" class="fi-icon" style="width:25px; height: 25px;"
+          (click)="handleQuestionChoice('create',0)">
+          <i class="fa-solid fa-circle-plus"></i>
+        </button>
+      </div>
+      @if(questionChoices.controls){
+      <ng-container formArrayName="choices">
+        @for (choice of questionChoices.controls; track choice; let i = $index) {
+        <div class="mb-3 single__choice">
+          <label [for]="'choice'+i">Choice {{i+1}}</label>
+          <form [formGroupName]="i">
+            <div class="choice">
+              <div class="inputs-container">
+                <div class="form-group text">
+                  <input type="text" class="form-control" [id]="'choice-text'+i" placeholder="Enter Choice Text"
+                    formControlName="choiceText">
+                </div>
+
+                <div class="form-group form-check">
+                  <input type="checkbox" placement="top" [ngbTooltip]="'Choice ' + i + ' is correct value'"
+                    class="form-check-input" [id]="'is-correct'+i" formControlName="isCorrect">
+                </div>
+              </div>
+
+              @if(i > 0){
+              <button class="fi-icon p-2 m-2" placement="top" [ngbTooltip]="'Remove choice ' +i"
+                style="width:25px; height: 25px;" (click)="handleQuestionChoice('remove',i)">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+              }
+              @else {
+              <span class="p-2 m-2" style="width:25px; height: 25px;">
+              </span>
+              }
+            </div>
+            <div class="hint">
+              @if(choice.get('choiceText')?.invalid && (choice.dirty|| choice.touched )) {
+              <small class="error-hint">
+                Choice text is a required field.</small>
+              }
+              @if( type === 'checkbox' && singleInputStructureForm.get('choices')?.hasError('notValidCorrectChoice') &&
+              (choice.dirty|| choice.touched
+              ) ){
+              <small class="error-hint">Please select at least one correct choice.</small>
+              }
+              @if( type === 'radio' && singleInputStructureForm.get('choices')?.hasError('notValidCorrectChoice') &&
+              (choice.dirty|| choice.touched
+              ) ){
+              <small class="error-hint">Please select one correct choice.</small>
+              }
+            </div>
+          </form>
+
+        </div>
+        }
+
+      </ng-container>
+      }
+
+    </div>
+    }
+
+  </form>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-success" (click)="emitSaveQuestion()">Save Question</button>

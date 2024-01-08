@@ -26,7 +26,7 @@ export class FormComponent {
     this.formTypes = [
       {type: 'textarea',icon: "fa-regular fa-file-lines",name: 'Text Area'},
       {type: 'text',icon: "fa-solid fa-paragraph",name: 'Text Input'},
-      {type: 'checkbox',icon: "fa-solid fa-square-check",name: 'CheckBox'},
+      {type: 'checkbox',icon: "fa-solid fa-square-check",name: 'Check Box'},
       {type: 'radio',icon: "fa-regular fa-circle-dot",name: 'Radio Button'}
     ]
     this.formElementsStructure = this.fb.array([])
