@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">{{ name }} Question Form</h4>
-  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+  <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
 </div>
 <div class="modal-body">
   <form [formGroup]="singleInputStructureForm">
@@ -92,5 +92,5 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-success" (click)="emitSaveQuestion()">Save Question</button>
-  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
 </div>

@@ -1,26 +1,30 @@
-import {Component,ViewChild,inject} from '@angular/core';
+import {Component,signal} from '@angular/core';
 import {FieldsComponent} from '../fields/fields.component';
-import {FormArray,FormBuilder,FormGroup} from '@angular/forms';
-import {NgbActiveModal,NgbModal,NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import {NgbModal,NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {QuestionModalComponent} from '../../shared/components/question-modal/question-modal.component';
 import {Subscription} from 'rxjs';
 import {QuestionService} from '../../core/services/question.service';
-import {IQuestion,QuestionName,QuestionType} from '../../core/models/question';
+import {IQuestion,IReadyQuestion,QuestionName,QuestionType} from '../../core/models/question';
+import {JsonPipe} from '@angular/common';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [FieldsComponent],
+  imports: [FieldsComponent,JsonPipe,FormsModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
 })
 export class FormComponent {
   formTypes: IQuestion[]
-  formElementsStructure!: FormArray
-  questionModalComponentRef!: NgbModalRef
   subscriptions: Subscription[] = []
 
-  constructor (private fb: FormBuilder,
+  formElementsStructure: IReadyQuestion[] = []
+  formElementsStructureSignal = signal(this.formElementsStructure)
+
+  questionModalComponentRef!: NgbModalRef
+
+  constructor (
     private questionService: QuestionService,
     private modalService: NgbModal) {
     this.formTypes = [
@@ -29,15 +33,14 @@ export class FormComponent {
       {type: 'checkbox',icon: "fa-solid fa-square-check",name: 'Check Box'},
       {type: 'radio',icon: "fa-regular fa-circle-dot",name: 'Radio Button'}
     ]
-    this.formElementsStructure = this.fb.array([])
   }
 
   open (question: {name: QuestionName,type: QuestionType}) {
-    this.questionModalComponentRef = this.modalService.open(QuestionModalComponent);
+    this.questionModalComponentRef = this.modalService.open(QuestionModalComponent,{size: 'lg',scrollable: true,backdrop:'static'});
     this.questionModalComponentRef.componentInstance.name = question.name;
     this.questionModalComponentRef.componentInstance.type = question.type;
-    const sub = this.questionService.question.subscribe((data) => {
-      console.log(data)
+    const sub = this.questionService.question.subscribe((q) => {
+      q && this.formElementsStructureSignal.set([...this.formElementsStructureSignal(),q]);
       sub.unsubscribe()
     })
   }

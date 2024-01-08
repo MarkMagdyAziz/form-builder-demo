@@ -1,5 +1,5 @@
 import {QuestionService} from './../../../core/services/question.service';
-import {Component,Input,OnInit,Output} from '@angular/core';
+import {Component,Input,OnInit} from '@angular/core';
 import {NgbActiveModal,NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {QuestionName,QuestionType} from '../../../core/models/question';
 import {AbstractControl,FormArray,FormBuilder,FormGroup,ReactiveFormsModule,ValidatorFn,Validators} from '@angular/forms';
@@ -86,8 +86,10 @@ export class QuestionModalComponent implements OnInit {
     } else {
       this.singleInputStructureForm.markAllAsTouched()
     }
-
+  }
+  closeModal(){
+    this.activeModal.close();
+    this.questionService.createQuestion(null)
 
   }
-
 }

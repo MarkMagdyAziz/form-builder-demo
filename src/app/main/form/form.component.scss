@@ -1,0 +1,15 @@
+.question{
+  width: 90% ;
+  margin-top: 10px;
+
+}
+.questions{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hint{
+  color: green;
+}

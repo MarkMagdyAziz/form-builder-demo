@@ -1,10 +1,31 @@
-<div class="container-fluid">
+<div class="container-fluid my-4">
   <div class="row">
     <div class="col-2">
       <app-fields [formElements]="formTypes" (openQuestionModalEmitter)="open($event)"></app-fields>
     </div>
     <div class="col-10">
-      form
+      <div class="questions">
+        @for (question of formElementsStructureSignal(); track i;let i = $index) {
+
+        @if (question.type === 'text') {
+        <div class="form-group question" >
+          <label [for]="question.name + i">{{'Question number '+ (i+1) + ' : ' + question.label}} <span class="hint"> {{ question.isRequired ? '( Mandatory )' : '( Optional )' }}</span>  </label>
+          <input type="text" [name]="question.name + i" [disabled]="true" [ngModel]="question.value|| 'Empty value'"
+            [value]="question.value" class="form-control">
+        </div>
+        }
+        @else if (question.type === 'textarea') {
+          <div class="form-group question">
+            <label [for]="question.name + i">{{'Question number '+ (i+1) + ' : ' + question.label }} <span class="hint"> {{ question.isRequired ? '( Mandatory )' : '( Optional )' }}</span></label>
+            <textarea class="form-control" [id]="question.name + i" rows="2" disabled>{{question.value || 'Empty value'}} </textarea>
+          </div>
+        }
+        @else if (question.type === 'radio') {}
+
+        @else if (question.type === 'checkbox') {}
+
+        }
+      </div>
     </div>
   </div>
 </div>

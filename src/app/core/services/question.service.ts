@@ -1,16 +1,17 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
+import {IReadyQuestion} from '../models/question';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService {
-  private questionModal$ = new EventEmitter<any>();
+  private questionModal$ = new Subject<IReadyQuestion | null>();
   question = this.questionModal$.asObservable()
 
   constructor () {
   }
-  createQuestion (question: any) {
+  createQuestion (question: IReadyQuestion | null) {
     this.questionModal$.next(question)
   }
 }
