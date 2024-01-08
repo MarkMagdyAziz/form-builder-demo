@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-3">
-      <app-fields></app-fields>
+    <div class="col-2">
+      <app-fields [formElements]="formTypes" (openQuestionModalEmitter)="open($event)"></app-fields>
     </div>
-    <div class="col-9">
+    <div class="col-10">
       form
     </div>
   </div>
