@@ -10,7 +10,7 @@ export interface IReadyQuestion {
   name:QuestionName
   type:QuestionType
   label:string
-  value:string
+  value?:string
   isRequired:boolean
   choices?:IQuestionChoice[]
 }

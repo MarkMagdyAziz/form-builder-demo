@@ -13,10 +13,12 @@
         label is a required field</small>
       }
     </div>
-    <div class="form-group my-3">
-      <input type="text" class="form-control" id="input-value" placeholder="Enter Question Input Value"
-        formControlName="value">
-    </div>
+    @if ((type === 'text') || (type === 'textarea')) {
+      <div class="form-group my-3">
+        <input type="text" class="form-control" id="input-value" placeholder="Enter Question Input Value"
+          formControlName="value">
+      </div>
+    }
     <div class="form-group my-3 form-check">
       <input type="checkbox" class="form-check-input" id="is-required-question" formControlName="isRequired">
       <label for="is-required-question">The question input is required</label>

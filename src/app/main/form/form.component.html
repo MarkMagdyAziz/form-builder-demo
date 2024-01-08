@@ -6,25 +6,40 @@
     <div class="col-10">
       <div class="questions">
         @for (question of formElementsStructureSignal(); track i;let i = $index) {
+        <div class="form-group question">
+          <label
+            [for]="question.name + i">{{'Input field number '+ (i+1)+ ' ' + question.name + ' : ' + question.label}}
+            <span class="hint">
+              {{ question.isRequired ? '( Mandatory )' : '( Optional )' }}</span> </label>
 
-        @if (question.type === 'text') {
-        <div class="form-group question" >
-          <label [for]="question.name + i">{{'Question number '+ (i+1) + ' : ' + question.label}} <span class="hint"> {{ question.isRequired ? '( Mandatory )' : '( Optional )' }}</span>  </label>
+          @if (question.type === 'text') {
           <input type="text" [name]="question.name + i" [disabled]="true" [ngModel]="question.value|| 'Empty value'"
             [value]="question.value" class="form-control">
+          }
+          @else if (question.type === 'textarea') {
+          <textarea class="form-control" [id]="question.name + i" rows="2" disabled>{{question.value || 'Empty value'}}
+          </textarea>
+          }
+
+
+          @else {
+
+          @for (choice of question.choices;track j;let j = $index) {
+          <div class="form-group question form-check form-check-inline">
+            @if (question.type == 'radio') {
+            <input disabled class="form-check-input" type="radio" [name]="i+choice.choiceText"
+              [id]="i+choice.choiceText" [value]="true" [ngModel]="choice.isCorrect">
+            } @else if (question.type == 'checkbox') {
+            <input disabled class="form-check-input" type="checkbox" [name]="i+choice.choiceText"
+              [id]="i+choice.choiceText" [value]="true" [ngModel]="choice.isCorrect">
+            }
+            <label class="form-check-label" [for]="i+choice.choiceText">{{choice.choiceText + question.type}}</label>
+          </div>
+          }
+          }
         </div>
         }
-        @else if (question.type === 'textarea') {
-          <div class="form-group question">
-            <label [for]="question.name + i">{{'Question number '+ (i+1) + ' : ' + question.label }} <span class="hint"> {{ question.isRequired ? '( Mandatory )' : '( Optional )' }}</span></label>
-            <textarea class="form-control" [id]="question.name + i" rows="2" disabled>{{question.value || 'Empty value'}} </textarea>
-          </div>
-        }
-        @else if (question.type === 'radio') {}
 
-        @else if (question.type === 'checkbox') {}
-
-        }
       </div>
     </div>
   </div>

@@ -38,10 +38,12 @@ export class QuestionModalComponent implements OnInit {
       name: this.name,
       type: this.type
     })
-    if ((this.type !== 'checkbox') && (this.type !== 'radio')) {
+    if ((this.type === 'text') || (this.type === 'textarea')) {
       this.singleInputStructureForm.removeControl('choices')
     } else {
       this.questionChoices.push(this.createFormGroupQuestionChoice())
+      this.singleInputStructureForm.removeControl('value')
+
     }
   }
   get questionChoices () {
