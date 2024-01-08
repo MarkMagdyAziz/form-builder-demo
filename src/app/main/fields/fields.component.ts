@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component,EventEmitter,Input,Output} from '@angular/core';
+import {IQuestion, QuestionName, QuestionType} from '../../core/models/question';
 
 @Component({
   selector: 'app-fields',
@@ -8,5 +9,11 @@ import { Component } from '@angular/core';
   styleUrl: './fields.component.scss'
 })
 export class FieldsComponent {
+  @Input({required: true}) formElements: IQuestion[] = []
+  @Output() openQuestionModalEmitter = new EventEmitter<{type: QuestionType,name: QuestionName}>();
+
+  emmitOpen (type: QuestionType,name: QuestionName) {
+    this.openQuestionModalEmitter.next({type,name})
+  }
 
 }
